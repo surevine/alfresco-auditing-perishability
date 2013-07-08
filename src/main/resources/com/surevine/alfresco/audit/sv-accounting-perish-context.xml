@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="SVAuditPerishabilityLogicProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="proxyInterfaces">
+			<value>com.surevine.alfresco.repo.delete.PerishabilityLogic</value>
+		</property>
+		<property name="target">
+			<ref bean="com.surevine.alfresco.repo.delete.PerishabilityLogic" />
+		</property>
+	</bean>
+	
+	<bean name="auditFilter" class="com.surevine.alfresco.audit.SpringAuditFilterBean">
+		<property name="repository" ref="auditRepository" />
+		<property name="authenticationService" ref="AuthenticationService" />
+		<property name="listeners">
+			<set>
+				<ref bean="copyDocumentAuditEventListener" />
+				<ref bean="createDocumentCommentAuditEventListener" />
+				<ref bean="createDiscussionAuditEventListener" />
+				<ref bean="createDiscussionReplyAuditEventListener" />
+				<ref bean="createFolderAuditEventListener" />
+				<ref bean="createWikiPageAuditEventListener" />
+				<ref bean="deleteDiscussionAuditEventListener" />
+				<ref bean="deleteDocumentAuditEventListener" />
+				<ref bean="deleteDocumentCommentAuditEventListener" />
+				<ref bean="deleteFolderAuditEventListener" />
+				<ref bean="deleteWikiPageAuditEventListener" />
+				<ref bean="downloadDocumentAuditEventListener" />
+				<ref bean="editDiscussionReplyAuditEventListener" />
+				<ref bean="editDiscussionTopicAuditEventListener" />
+				<ref bean="editDocumentCommentAuditEventListener" />
+				<ref bean="lockDocumentAuditEventListener" />
+				<ref bean="moveDocumentAuditEventListener" />
+				<ref bean="multiDocumentDeleteAuditEventListener" />
+				<ref bean="renameWikiPageAuditEventListener" />
+				<ref bean="revertDocumentVersionAuditEventListener" />
+				<ref bean="safeMoveDocumentAuditEventListener" />
+				<ref bean="searchSiteAuditEventListener" />
+				<ref bean="unlockDocumentAuditEventListener" />
+				<ref bean="updateDocumentAuditEventListener" />
+				<ref bean="updateDocumentMetadataAuditEventListener" />
+				<ref bean="updateDocumentPermissionsAuditEventListener" />
+				<ref bean="updateWikiPageAuditEventListener" />
+				<ref bean="uploadDocumentAuditEventListener" />
+				<ref bean="viewDiscussionTopicAuditEventListener" />
+				<ref bean="viewDocumentDetailsAuditEventListener" />
+				<ref bean="viewWikiPageAuditEventListener" />
+				<ref bean="revertWikiPageAuditEventListener" />
+				<ref bean="markForDeleteAuditEventListener" />
+				<ref bean="removeDeletionMarkAuditEventListener" />
+				<ref bean="undeleteAuditEventListener" />
+				<ref bean="immediateArchiveAuditEventListener" />
+				<ref bean="markPerishableAuditEventListener" />
+			</set>
+		</property>
+	</bean>
+	
+	<bean name="createDiscussionAuditEventListener"
+			class="com.surevine.alfresco.audit.listeners.PerishableCreateDiscussionAuditEventListener"
+			parent="abstractAuditEventListener">
+		<property name="perishabilityLogic" ref="SVAuditPerishabilityLogicProxy"/>
+	</bean>
+	
+	<bean name="uploadDocumentAuditEventListener"
+			class="com.surevine.alfresco.audit.listeners.PerishableUploadDocumentAuditEventListener"
+			parent="abstractAuditEventListener">
+		<property name="perishabilityLogic" ref="SVAuditPerishabilityLogicProxy"/>
+	</bean>
+
+	<bean name="markPerishableAuditEventListener" class="com.surevine.alfresco.audit.listeners.MarkPerishableAuditEventListener" parent="abstractAuditEventListener"/>
+</beans>
