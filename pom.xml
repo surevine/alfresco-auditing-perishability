@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.surevine.alfresco</groupId>
 	<artifactId>alfresco_accounting_perishability</artifactId>
-	<version>1.0-SNAPSHOT</version>
+	<version>1.0</version>
 
 
 	<!-- O R G A N I S A T I O N I N F O R M A T I O N -->
